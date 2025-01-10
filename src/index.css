@@ -1,0 +1,8 @@
+body {
+  background: gray;
+  display: flex;
+  align-items: center; /* Vertically center */
+  justify-content: center; /* Horizontally center */
+  height: 100vh; /* Full viewport height */
+  margin: 0; /* Remove default margin */
+}
