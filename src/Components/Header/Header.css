@@ -1,0 +1,8 @@
+.headerContainer {
+  width: 1240px;
+  background: rgb(105, 156, 157);
+  display: flex;
+  justify-content: space-between;
+  padding: 30px 30px;
+  gap: 30px;
+}

@@ -1,25 +1,25 @@
 import { useState } from "react";
 import "./Login.css";
-import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../Components/Guard/guard";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
-  const navigate = useNavigate();
+  const auth = useAuth();
 
   const handleCklickLogin = () => {
     setEmailError(false);
     setPasswordError(false);
 
-    if (email === "admin@gmail.com" && password === "admin123") {
-      navigate("/users");
+    if (email === "asdasd" && password === "asdasd") {
+      auth.authorize();
     } else {
-      if (email !== "admin@gmail.com") {
+      if (email !== "asdasd") {
         setEmailError(true);
       }
-      if (password !== "admin123") {
+      if (password !== "asdasd") {
         setPasswordError(true);
       }
     }
