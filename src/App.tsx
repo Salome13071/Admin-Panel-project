@@ -1,19 +1,15 @@
-import "./App.css";
-import Footer from "./Components/Footer/Footer";
-import Header from "./Components/Header/Header";
-import { Outlet } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Login from "./Pages/LoginPage/Login";
+import Users from "./Pages/UserPage/Users";
 
 function App() {
   return (
-    <>
-      <div>
-        <Header />
-        <main>
-          <Outlet />
-        </main>
-        <Footer />
-      </div>
-    </>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/users" element={<Users />} />
+      </Routes>
+    </Router>
   );
 }
 
