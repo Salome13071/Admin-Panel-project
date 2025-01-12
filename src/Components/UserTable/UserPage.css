@@ -10,24 +10,24 @@
   max-width: 1200px;
   margin: auto;
   background-color: white;
-  border: 3px solid black;
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 5px;
-  height: 100vh;
+  padding: 20px;
+  position: relative;
 }
 .user-title {
   display: grid;
   grid-template-columns: 1fr repeat(4, 2fr);
-  /* gap: 20px; */
+  gap: 25px;
 }
 .user-title p {
   padding: 12px 26px;
   font-size: 24px;
   font-weight: bold;
   text-align: center;
-  background-color: rgb(239, 240, 241);
+  /* background-color: rgb(239, 240, 241); */
 }
 .user-details {
   display: grid;
@@ -41,7 +41,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 12px 8px;
+  padding: 12px 0px;
 }
 .user-action {
   display: flex;
@@ -74,4 +74,57 @@
   background-color: black;
   color: white;
 
+}
+.popup{
+  position: absolute;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+  height: 30%;
+background-color: rgb(87, 85, 85, 0.9);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+  border-radius: 8px;
+  gap: 20px;
+}
+.popup-content{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap:10px;
+}
+.popup-content input{
+  padding: 10px;
+  border-radius: 8px;
+}
+.popup h2{
+  text-align: center;
+  color: white;
+}
+.popup-btns{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap:10px
+}
+.popup-btns button{
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.savechanges{
+  background-color: green;
+  color: white;
+  font-size: 20px;
+}
+.cancelchanges{
+  background-color: red;
+  color: white;
+  font-size: 20px;
 }
