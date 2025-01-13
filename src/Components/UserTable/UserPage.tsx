@@ -82,6 +82,7 @@
 
 import { useState, useEffect } from "react";
 import "./UserPage.css";
+import { Search } from "@mui/icons-material";
 
 interface User {
   id: number;
@@ -93,6 +94,8 @@ interface User {
 
 const UserPage = () => {
   const [users, setUsers] = useState<User[]>([]);
+  const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
   const [page, setPage] = useState(1);
   const [limit] = useState(15);
   const [editId, setEditId] = useState<number | null>(null);
@@ -113,9 +116,21 @@ const UserPage = () => {
           age: user.age,
           status: user.isVerified ? "Verified" : "Unverified",
         }));
-        setUsers(users.filter((user: User) => !deleteId.has(user.id)));
+        const filtered = users.filter((user: User) => !deleteId.has(user.id));
+        setUsers(filtered);
+        setFilteredUsers(filtered);
       });
   }, [page, deleteId]);
+
+  useEffect(() => {
+    const lowerSearchTerm = searchTerm.toLowerCase();
+    const filtered = users.filter(
+      (user) =>
+        user.firstName.toLowerCase().includes(lowerSearchTerm) ||
+        user.email.toLowerCase().includes(lowerSearchTerm)
+    );
+    setFilteredUsers(filtered);
+  }, [searchTerm, users]);
 
   const edit = (user: User) => {
     setEditId(user.id);
@@ -151,11 +166,38 @@ const UserPage = () => {
     setEditDetails(null);
   };
   const deleteFunction = (id: number) => {
-    setDeleteId((deleted) => new Set(deleted.add(id)));
+    setDeleteId((deleted) => {
+      const updatedDeleted = new Set(deleted.add(id));
+      setFilteredUsers(users.filter((user) => !updatedDeleted.has(user.id)));
+      return updatedDeleted;
+    });
   };
 
   return (
     <div className="user-container">
+      <div className="searchContainer">
+        <div className="searchBar">
+          <input
+            type="text"
+            placeholder="Search for users(e.g., name) "
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <Search
+            className="search-icon"
+            onClick={() => {
+              const lowerSearchTerm = searchTerm.toLowerCase();
+              const filtered = users.filter(
+                (user) =>
+                  user.firstName.toLowerCase().includes(lowerSearchTerm) ||
+                  user.email.toLowerCase().includes(lowerSearchTerm)
+              );
+              setFilteredUsers(filtered);
+            }}
+          />
+        </div>
+      </div>
+
       <div className="user-title">
         <p>Actions</p>
         <p>First Name</p>
@@ -164,7 +206,7 @@ const UserPage = () => {
         <p>Status</p>
       </div>
       <div className="user-search"></div>
-      {users.map((user, index) => (
+      {filteredUsers.map((user, index) => (
         <div
           className="user-details"
           key={user.id}
