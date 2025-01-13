@@ -104,23 +104,49 @@ const UserPage = () => {
   const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
-    fetch(
-      `https://dummyjson.com/users?limit=${limit}&skip=${(page - 1) * limit}`
-    )
-      .then((info) => info.json())
-      .then((data) => {
-        const users = data.users.map((user: any) => ({
-          id: user.id,
-          firstName: `${user.firstName}`,
-          email: user.email,
-          age: user.age,
-          status: user.isVerified ? "Verified" : "Unverified",
-        }));
-        const filtered = users.filter((user: User) => !deleteId.has(user.id));
-        setUsers(filtered);
-        setFilteredUsers(filtered);
-      });
-  }, [page, deleteId]);
+    const delayDebounce = setTimeout(() => {
+      if (searchTerm.trim().length < 2) {
+        fetch(
+          `https://dummyjson.com/users?limit=${limit}&skip=${
+            (page - 1) * limit
+          }`
+        )
+          .then((res) => res.json())
+          .then((data) => {
+            const users = data.users.map((user: any) => ({
+              id: user.id,
+              firstName: user.firstName,
+              email: user.email,
+              age: user.age,
+              status: user.isVerified ? "Verified" : "Unverified",
+            }));
+            const filtered = users.filter(
+              (user: User) => !deleteId.has(user.id)
+            );
+            setUsers(filtered);
+            setFilteredUsers(filtered);
+          });
+      } else {
+        fetch(`https://dummyjson.com/users/search?q=${searchTerm}`)
+          .then((res) => res.json())
+          .then((data) => {
+            const users = data.users.map((user: any) => ({
+              id: user.id,
+              firstName: user.firstName,
+              email: user.email,
+              age: user.age,
+              status: user.isVerified ? "Verified" : "Unverified",
+            }));
+            const filtered = users.filter(
+              (user: User) => !deleteId.has(user.id)
+            );
+            setFilteredUsers(filtered);
+          });
+      }
+    }, 300);
+
+    return () => clearTimeout(delayDebounce);
+  }, [searchTerm, deleteId, limit, page]);
 
   useEffect(() => {
     const lowerSearchTerm = searchTerm.toLowerCase();
