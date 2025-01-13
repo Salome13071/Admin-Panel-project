@@ -9,7 +9,9 @@ export default function Header() {
       </div>
 
       <div>
-        <button onClick={useAuth().logout}>Log Out</button>
+        <button className="logoutButton" onClick={useAuth().logout}>
+          Log Out
+        </button>
       </div>
     </div>
   );
